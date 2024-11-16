@@ -2,40 +2,44 @@
 #define LOGIC_HPP_
 #include "Global.hpp"
 #include <unordered_map>
-#include <unordered_set>
+#include <iterator>
 #include <iostream>
+#include <random>
+#include <chrono>
+#include <thread>
 
-struct pair_hash {
-    std::size_t operator()(const std::pair<uint8_t, uint8_t>& p) const {
-        return std::hash<uint8_t>()(p.first) ^ (std::hash<uint8_t>()(p.second) << 1);
-    }
-};
-
-struct pair_pair_hash{
-    std::size_t operator()(const std::pair<std::pair<uint8_t, uint8_t>,std::pair<uint8_t, uint8_t>>& p) const {
-        return pair_hash()(p.first) ^ (pair_hash()(p.second) << 1);
-    }
-};
 
 
 class Logic {
-    std::unordered_set<std::pair<uint8_t, uint8_t>, pair_hash> availableSpots_;
-    std::unordered_set<uint8_t> sectorRelatedSpots_[SUBNUM];
-    uint8_t sudokuMesh_[MESHSIZE];
-    uint8_t availableSpotsImage_[MESHSIZE];
-    //uint8_t discoverSubSecor(std::pair<uint8_t, uint8_t>) const ;
-    void excludeSubSector(std::pair<uint8_t, uint8_t>,
-                        std::unordered_set<std::pair<uint8_t, uint8_t>, pair_hash>&) const;
-    void excludeCrossSpots(std::pair<uint8_t, uint8_t>, 
-                        std::unordered_set<std::pair<uint8_t, uint8_t>, pair_hash>&) const;
-    bool checkSpots(uint8_t, std::unordered_set<std::pair<uint8_t, uint8_t>, pair_hash>&) const;
     public:
-    Logic();
-    ~Logic();
-    int init();
-    int generateSudokuMesh();
-    void meshOut() const;
-    void lsOut(std::unordered_set<std::pair<uint8_t, uint8_t>, pair_hash>);
+        enum Difficulty : uint8_t {Easy, Medium, Hard, Extreame, Nightmare};
+        Logic();
+        ~Logic();
+        int init();
+        void meshOut() const;
+        void lsOut(std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash>);
+        void create();
+    private:
+        const uint8_t ATMOSTMISSINGCELLS_ = MESHSIZE - 17;
+        Difficulty level_;
+        uint8_t nMissingCells_;
+        std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash> availableSpots_;
+        uint8_t sudokuMesh_debug[MESHSIZE];
+        std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash> sudokuMesh_[9];
+        uint8_t availableSpotsImage_[MESHSIZE];
+        std::mt19937 gen_;
+
+        uint8_t uBByCord(const uint8_t&) const;
+        uint8_t lBByCord(const uint8_t&) const;
+        //uint8_t discoverSubSecor(std::pair<uint8_t, uint8_t>) const ;
+        void excludeSubSector(std::pair<uint8_t, uint8_t>,
+                            std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash>&) const;
+        void excludeCrossSpots(std::pair<uint8_t, uint8_t>, 
+                            std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash>&) const;
+        bool checkSpots(uint8_t, std::unordered_set<std::pair<uint8_t, uint8_t>, pUI8hash>&) const;
+        int generateCompleteMesh();
+        void applyDifficulty();
+        void generateMissing();
 };
 
 #endif //!LOGIC_HPP_
