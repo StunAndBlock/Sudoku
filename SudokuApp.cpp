@@ -14,13 +14,12 @@ int SudokuApp::init(){
         return -1;
     }
 
-
-    ls_->init();
+     ls_->init();
 
     return 0;
 }
 int SudokuApp::start(){
-    ls_->generateSudokuMesh();
+    ls_->create();
     ls_->meshOut();
     return 0;
 }

@@ -4,14 +4,14 @@
 #include "Gui.hpp"
 
 class SudokuApp{
-    Logic* ls_;
-    Gui* gs_;
-
     public:
-    SudokuApp() = default;
-    ~SudokuApp();
-    int init();
-    int start();
+        SudokuApp() = default;
+        ~SudokuApp();
+        int init();
+        int start();
+    private:
+        Logic* ls_;
+        Gui* gs_;
 };
 
 
