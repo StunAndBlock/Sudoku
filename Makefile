@@ -1,22 +1,31 @@
 TARGET = Sudoku.exe
 BUILDFOLDER = build
+SOURCEFOLDER = src
 CC =x86_64-w64-mingw32-g++
 
-# WINAPILIBS = -lcomctl32 -lgdi32 -lgdiplus
-# WINAPIRELATED = -municode -mwindows
+LIBSABWINAPIGUI = -lsan_winapi_gui -Lsrc/Gui/StunAndBlock/
+# WINAPILIBS = -lcomctl32 -lgdi32 -lgdiplus -luser32
+MINGWWINDOWS = -mwindows -municode
 # AVOIDMINGWDYNAMIC =
 CFLAGS = -std=c++17 \
          -O0 -D_FORTIFY_SOURCE=2 -fstack-protector 
 #-Wall -Wextra -Werror -Wshadow 
 LDFLAGS = -fstack-protector -Wl,-O1,-pie,--dynamicbase,--nxcompat,--sort-common,--as-needed \
-		-Wl,--image-base,0x140000000 -Wl,--disable-auto-image-base -mconsole
-# $(AVOIDMINGWDYNAMIC) $(WINAPILIBS) $(WINAPIRELATED)
-MMAIN = main.cpp Global.hpp
-MSUDOKUAPP = SudokuApp.cpp SudokuApp.hpp
-MLOGIC= Logic.cpp Logic.hpp 
-MGUI = Gui.cpp Gui.hpp
+		-Wl,--image-base,0x140000000 -Wl,--disable-auto-image-base -mconsole \
+		$(MINGWWINDOWS) $(LIBSABWINAPIGUI)
 
-MODULES = $(MMAIN) $(MSUDOKUAPP) $(MLOGIC) $(MGUI)
+
+MMAIN = $(SOURCEFOLDER)/main.cpp $(SOURCEFOLDER)/Global.hpp
+MSUDOKUAPPDIR = $(SOURCEFOLDER)/App
+MSUDOKUAPP = $(MSUDOKUAPPDIR)/SudokuApp.cpp $(MSUDOKUAPPDIR)/SudokuApp.hpp
+MLOGICDIR = $(SOURCEFOLDER)/Logic
+MLOGIC= $(MLOGICDIR)/Logic.cpp $(MLOGICDIR)/Logic.hpp
+MGUIDIR = $(SOURCEFOLDER)/Gui
+MGUI = $(MGUIDIR)/Gui.cpp $(MGUIDIR)/Gui.hpp
+MMENU = $(MGUIDIR)/Menu.cpp $(MGUIDIR)/Menu.hpp
+MGUIALL = $(MGUI) $(MMENU)
+
+MODULES = $(MMAIN) $(MSUDOKUAPP) $(MLOGIC) $(MGUIALL)
 
 CPP = $(filter %.cpp,$(MODULES))
 HEADERS = $(filter %.hpp %.h,$(MODULES))
