@@ -1,6 +1,6 @@
 # TOTAL:
-- GUI -> 0%
-- LOGIC -> ~90%
+- GUI -> ~30%
+- LOGIC -> 100%
 - DATA -> 0%
 ***
 
@@ -8,74 +8,78 @@ Priority. [^1]
 [^1]: Smaller number; more important
 ***
 ### Project structure
-Should be refactored
+- [x] Should be refactored
 
 ## GUI
+
+- [ ] :
 <details>
-  <summary >create default menu</summary>
-starting game, personal records, etc.
-personal records require work with Data
+  <summary>create default menu -> ~%90</summary>
+Data required, continue game, stats window - should be implemented.
 </details>
 
 > priority: 2
 
+
+- [ ] :
 <details>
-  <summary>default WinApi UI should be implemented </summary>
-remove console debuging, output Sudoku game into GUI
-GUI structure and logic:
-Sudoku consists of 9x9 mesh where each submesh is 3x3 where each cell is 1x1. Each cell is separate Window.
-Window class structure:
-class baseCell{
-    protected:
-        HWND hMain_;
-    ...
-}
-//* only displaing number of Sudoku *//
-class passiveCell : private baseCell{
-    ...
-}
-//* interactive, this is missing spot where certain number can be inserted *//
-class activeCell : private baseCell{
-    ...
-}
+  <summary>UI should be implemented for Sudoku mesh</summary>
+<p>remove console debuging, output Sudoku game into GUI
+<p>GUI structure and logic:
+<p>Sudoku consists of 9x9 mesh where each submesh is 3x3 where each cell is 1x1. Each cell is separate Window.
+<p>Window class structure:
+<pre>
+  class baseCell{
+      protected:
+          HWND hMain_;
+     ...
+  }
+  //* only displaing number of Sudoku *//
+  class passiveCell : private baseCell{
+      ...
+  }
+  //* interactive, this is missing spot where certain number can be inserted *//
+  class activeCell : private baseCell{
+      ...
+  }
+</pre>
 possibly  converted into passive if correct number was inserte
 </details>
 
-> priority: 2
+> priority: 1
 
+- [ ] :
 <details>
     <summary>advanced </summary>
-Creating advanced style and interface;
+<p>Creating advanced style and interface;
 </details>
 
 > priority: 5
 
 ## Logic
-
-<details>
-  <summary>puzzle must be puzzle</summary>
-Everything except generating missing fields is done
-</details>
-
-> priority: 1
+- [x] puzzle must be puzzle -> 100%
 
 ## Data
+- [ ] :
 <details>
   <summary>storage i/o</summary>
-Implement two types of data and i/o logic
+<p>Implement two types of data and i/o logic
 </details>
 
 > priority 3
+- [ ] :
 <details>
   <summary>type 1: binary </summary>
-Personal records, ability to continue game if it was closed etc.
-Some sort of game content which should not be stored in executable binary
+<p>Personal records, ability to continue game if it was closed etc.
+<p>Some sort of game content which should not be stored in executable binary
 </details>
 
 > priority: 3
 
+- [ ] :
+<details>
 <summary>type 2: text </summary>
-Configs for visual part of App
+<p>Configs for visual part of App
 </details>
 
 > priority 6  
